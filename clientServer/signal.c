@@ -1,34 +1,32 @@
-#include<signal.h>
+/* signal_fpe_handler.c */
 #include<stdio.h>
+#include<signal.h>
 #include<stdlib.h>
-#include<unistd.h>
-#include<sys/types.h>
 
-void send_SIGUSR1(int a);
+void handler_dividebyzero(int signum);
 
-int main()
-{
-	int pid;
-
-	if ((pid = fork()) < 0) {
-		perror("Fork");
-		exit(1);
-	}
-
-	if (pid == 0) {
-		printf("\nhello i am the child my pid is = %d \n", getpid());
-		signal(SIGUSR1, send_SIGUSR1);
-	}
-	else
-	{
-		printf("\nPARENT: sending SIGUSR1 %d myid = %d \n\n", pid, getpid());
-		kill(pid, SIGUSR1);
-	}
-	return (0);
+int main() {
+   int result;
+   int v1, v2;
+   void (*sigHandlerReturn)(int);
+   sigHandlerReturn = signal(SIGFPE, handler_dividebyzero);
+   if (sigHandlerReturn == SIG_ERR) {
+      perror("Signal Error: ");
+      return 1;
+   }
+   v1 = 121;
+   v2 = 0;
+   result = v1/v2;
+   printf("Result of Divide by Zero is %d\n", result);
+   return 0;
 }
 
-void send_SIGUSR1(int a)
-{
-	// signal(SIGUSR1, send_SIGUSR1);
-	printf("CHILD: I have received a SIGUSR1\n");
+void handler_dividebyzero(int signum) {
+   if (signum == SIGFPE) {
+      printf("Received SIGFPE, Divide by Zero Exception\n");
+      exit (0);
+   } 
+   else
+      printf("Received %d Signal\n", signum);
+   return;
 }
