@@ -15,7 +15,7 @@ int	main(int argc, char **argv)
 	}
 	if (id != 0)
 	{
-		wait();
+		wait(NULL);
 	}
 	
 	int	i;

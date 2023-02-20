@@ -5,12 +5,11 @@
 #include <signal.h>
 int main(int argc, char **argv)
 {
-    kill(atoi(argv[1]), SIGUSR2);
-    kill(atoi(argv[1]), SIGUSR1);
-    sleep(1);
-    kill(atoi(argv[1]), SIGUSR1);
-    sleep(1);
-    kill(atoi(argv[1]), SIGUSR2);
-    sleep(1);
-    kill(atoi(argv[1]), SIGUSR2);
+    // while (1)
+    {
+        kill(atoi(argv[1]), SIGUSR2);
+        sleep(1);
+        kill(atoi(argv[1]), SIGUSR1);
+        sleep(1);
+    }
 }
