@@ -9,6 +9,8 @@ typedef struct s_data {
     int     bits_per_pixel;
     int     line_length;
     int     endian;
+    int		img_width;
+	int		img_height;
 }   t_data;
 
 typedef struct s_vars {
