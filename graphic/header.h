@@ -9,10 +9,10 @@ typedef struct s_data {
     int     bits_per_pixel;
     int     line_length;
     int     endian;
-    int		img_width;
-	int		img_height;
+    void    *mlx;
+    void    *win;
 }   t_data;
-
+#define player "./textures/raccoon_32x32.xpm"
 typedef struct s_vars {
     void    *mlx;
     void    *win;
