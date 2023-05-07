@@ -1,5 +1,5 @@
 #include "header.h"
-
+int j;
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
@@ -19,26 +19,22 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 int press_key(int keycode)
 {
-    printf("hello world key code = %d \n", keycode);
+    printf("the key code = %d \n", keycode);
     return (0);
 }
 
 int press_mouse(int keycode)
 {
-    printf("the key is : %d\n", keycode);
+    printf("the mouse key is : %d\n", keycode);
     return (0);
 }
 
 int render_next_frame()
 {
-    printf("here is the loop hook\n");
+    printf("here is the loop hook %d\n",j++);
     return (0);
 }
-// void init_struct(t_data *ptr)
-// {
-//     ptr->size = 0;
-    
-// }
+
 int main(void)
 {
     // t_vars  *vars;
@@ -67,12 +63,12 @@ int main(void)
 
     /*even it looks a new function but it only calls the function mlx_hook() 
         with the appropriate X11 event types*/
-    // mlx_key_hook(vars.win, press_key, &vars);
+    mlx_key_hook(ex.win, press_key, &ex);
 
-    // mlx_mouse_hook(vars.win, press_mouse, &vars);
+    mlx_mouse_hook(ex.win, press_mouse, &ex);
 
     /*mlx_loop_hook */
-    // mlx_loop_hook(vars.mlx, render_next_frame, &vars);
+    // mlx_loop_hook(ex.mlx, render_next_frame, &ex);
     printf("hello\n");
     void *ptr;
     ptr = mlx_xpm_file_to_image(ex.mlx, "./textures/raccoon_32x32.xpm", &img_width, &img_height);
