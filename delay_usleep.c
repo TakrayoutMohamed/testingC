@@ -21,6 +21,27 @@ long    get_time(void)
 ** Prints time, sleeps 200ms, repeats!
 */
 
+/*sleep a proccess or a thread for some time in milliseconds*/
+void ft_usleep(unsigned long unbr)
+{
+    unsigned long   time;
+    unsigned long   start;
+
+    time = unbr * 95 / 100;
+    start = get_time();
+    usleep(time * 1000);
+    while(1)
+    {
+        if (get_time() - start >= unbr)
+        {
+            break ;
+        }
+        usleep(100);
+    }
+}
+
+// unbr ------ 100
+// x   ------- 90
 int main(void)
 {
     int i;
@@ -30,13 +51,13 @@ int main(void)
     i = 0;
     start_time = get_time();
 
-    while (i < 10)
+    while (10)
     {
 		// Print time from start, in ms
         printf("%ld\n", get_time() - start_time);
 
 		// Sleep 200 times 1000 microseconds (1 millisecond)
-        usleep(200 * 1000);
+        ft_usleep(200);
         i++;
     }
 }
