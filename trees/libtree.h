@@ -6,7 +6,7 @@
 /*   By: mohtakra <mohtakra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 18:52:27 by mohtakra          #+#    #+#             */
-/*   Updated: 2023/07/10 18:33:35 by mohtakra         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:16:46 by mohtakra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 typedef struct s_tree
 {
 	void *data;
+	struct s_tree *route;
 	struct s_tree *left;
 	struct s_tree *right;
 } t_tree;
