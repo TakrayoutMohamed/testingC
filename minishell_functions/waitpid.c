@@ -43,8 +43,8 @@ int main(void)
         // sleep(5);
         wait(NULL);
         printf("\nhere is the lost process\n");
-        // while (4);
     }
     // sleep(6);
+    while (4);
     return (0);
 }

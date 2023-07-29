@@ -25,8 +25,8 @@ int main(void)
         printf("the pointer ptr point to addr = %p value = %d\n",ptr, *ptr);
         int *str;
         printf("\n%d\n",*(str));
-        fflush(stdout);
         printf("\n------end child only---------}\n\n");
+        fflush(stdout);
         exit(12);
         while (2);
     }
@@ -43,8 +43,8 @@ int main(void)
         printf("here is the parent process \n");
         printf("the number addr = %p value = %d\n",&nbr, nbr);
         printf("the pointer ptr point to addr = %p value = %d\n",ptr, *ptr);
-        fflush(stdout);
         printf("\n------end parent only---------}\n\n");
+        fflush(stdout);
     }
     // while (1);
     return (0);
