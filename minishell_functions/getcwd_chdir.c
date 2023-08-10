@@ -17,7 +17,7 @@ int main(void)
     printf("\nthe strcwd = %s\n",strcwd);
     system("ls");
     printf("\n-----------change the dir-------\n");
-    chdir("..");
+    chdir("///");
     printf("\nthe path of this file is :%s ,strcwd = %s\n",getcwd(strcwd, 4000), strcwd);
     printf("\nthe strcwd = %s\n",strcwd);
     system("ls");

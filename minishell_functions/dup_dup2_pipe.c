@@ -16,7 +16,7 @@ int main(int argc, char **argv)
 
     if (argc != 2 || strcmp(argv[1], "--help") == 0)
     {
-        printf("%s string\n", argv[0]);
+        printf("error %s string\n", argv[0]);
         exit(1);
     }
     if (pipe(pfd) == -1)
@@ -80,6 +80,8 @@ int main(int argc, char **argv)
                 exit (9);
             }
             wait(NULL); //wait for child to finish
+            printf("\n pipe[0] = %d , pipe[1] = %d",pfd[0],pfd[1]);
+            exit(errno);
             exit(EXIT_SUCCESS);
         }
     }

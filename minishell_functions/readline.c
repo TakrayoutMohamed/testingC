@@ -10,19 +10,19 @@ void leaks_test(void)
 }
 int main(int argc, char **argv, char **env)
 {
-    while (*env)
-    {
-        printf("%s\n",*env);
-        env++;
-    }
-    exit(0);
-    atexit(leaks_test);
+    // while (*env)
+    // {
+    //     printf("%s\n",*env);
+    //     env++;
+    // }
+    // exit(0);
+    // atexit(leaks_test);
     char *str;
     int i = 1;
 
     while (i < 5)
     {
-        str = readline("alvares SHELL > ");
+        str = readline("ⵜⴰⵎⴰⵣⵖⴰ> ");
         // str = readline("alvares");
         free(str);
         add_history(str);

@@ -3,16 +3,16 @@
 #include <string.h>
 #include <unistd.h>
 
-int main(int argc, char **argva, char **arge)
+int main(int argc, char **argva, char **env)
 {
-    char *str = "   ";
-    char *argv[] = {"/usr/bin/env" , NULL, NULL};
+    char *str = "script.bash";
+    char *argv[] = {NULL, NULL};
 
-    while (*arge)
-    {
-        printf("%s\n", *arge);
-        arge++;
-    }
+    // while (*env)
+    // {
+    //     printf("%s\n", *env);
+    //     env++;
+    // }
     printf("%s\n", "ffffffffffffffffffffff");
     execve(argv[0], argv, NULL);
     return (0);
