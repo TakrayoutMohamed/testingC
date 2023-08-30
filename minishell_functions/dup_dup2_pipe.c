@@ -79,7 +79,7 @@ int main(int argc, char **argv)
                 printf("close error\n");
                 exit (9);
             }
-            wait(NULL); //wait for child to finish
+            // wait(NULL); //wait for child to finish
             printf("\n pipe[0] = %d , pipe[1] = %d",pfd[0],pfd[1]);
             exit(errno);
             exit(EXIT_SUCCESS);

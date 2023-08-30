@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <string.h>
 
 int status;
@@ -9,19 +10,26 @@ int status;
 /*this function read from a fd_in's content and write it to fd_out*/
 void	read_from_fd(int fd_in, int fd_out)
 {
-	char	buff;
-	size_t	readedbuf;
-
-	while (1)
+	// close(fd_out);
+	for(;;)
 	{
-		readedbuf = read(fd_in, &buff, 1);
-		if (readedbuf == 0 || readedbuf == -1)
+		char c;
+		int numRead = read(fd_in , &c, 1);
+		if (numRead == -1)
 		{
-			exit(errno);
+			printf("error in read from pfd[0]");
+			exit(4);
 		}
-		if (readedbuf == 0)
-			break;
-		write(fd_out, &buff, 1);
+		if (numRead == 0)
+		{
+			printf("EOF!\n");
+			break ;
+		}
+		if (write (1, &c, numRead) != numRead)
+		{
+			printf("child - partial/failed write \n");
+			exit (5);
+		}
 	}
 }
 
@@ -51,14 +59,14 @@ void	ft_pipe_begain(char *cmd1[], char *cmd2[])
 	pid_t	pid;
 	pid_t	pid2;
 
-	pid2 = fork();
-	if (pid2 == -1)
-	{
-		print_error(errno);
-		exit(errno);
-	}
-	if (pid2 == 0)
-	{
+	// pid2 = fork();
+	// if (pid2 == -1)
+	// {
+	// 	print_error(errno);
+	// 	exit(errno);
+	// }
+	// if (pid2 == 0)
+	// {
 		if (pipe(pipe_fd) == -1)//create the pipe
 		{
 			print_error(errno);
@@ -84,30 +92,51 @@ void	ft_pipe_begain(char *cmd1[], char *cmd2[])
 			waitpid(pid, &status, WUNTRACED);
 			execve(cmd2[0], cmd2, NULL);
 		}
-	}
-	else
-	{
-		waitpid(pid2, &status, WUNTRACED);
-		// close_pipe(pipe_fd);
+	// }
+	// else
+	// {
+	// 	waitpid(pid2, &status, WUNTRACED);
+	// 	// close_pipe(pipe_fd);
 
-	}
+	// }
 }
 
 int main(void)
 {
 	int	pipe1[2];
 	setbuf(stdout, NULL);
-	// pipe(pipe1);
-	// dup2(pipe1[0], 0);
-	// dup2(pipe1[1], 1);
-	// close_pipe(pipe1);
+	int file = open("file.txt", O_CREAT | O_RDWR, 0777);
+	pipe(pipe1);
     char *cmd1[] = {"/bin/ls", "-la",NULL};
     char *cmd2[] = {"/usr/bin/grep", "read", NULL};
-    char *cmd3[] = {"/usr/bin/sort", "-r" , NULL};
-    char *cmd4[] = {"/usr/bin/sort", NULL, NULL};
+
+	// dup2(pipe1[1], 1);
+	// dup2(pipe1[0], 0);
     ft_pipe_begain(cmd1, cmd2);
-    // ft_pipe_begain(cmd3, cmd4);
 	printf("\nhello\n\n");
+	// close(pipe1[1]);
 	// read_from_fd(0, 1);
+
+	for(;;)
+	{
+		char c;
+		int numRead = read(pipe1[0] , &c, 1);
+		if (numRead == -1)
+		{
+			printf("error in read from pfd[0]");
+			exit(4);
+		}
+		if (numRead == 0)
+		{
+			printf("EOF!\n");
+			break ;
+		}
+		if (write (2, &c, numRead) != numRead)
+		{
+			printf("child - partial/failed write \n");
+			exit (5);
+		}
+	}
+	// write(file, "hekkkk",6);
     return (0);
 }

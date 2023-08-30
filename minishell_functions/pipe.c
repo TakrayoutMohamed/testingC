@@ -37,10 +37,10 @@ int main(void)
 {
     setbuf(stdout, NULL);
     char str[20];
+    int numRead;
     char buf[20];
     int p_fd[2];
     int p_fd2[2];
-    int numRead;
     pipe(p_fd);
     int pid = fork();
     if (pid == 0)
@@ -68,7 +68,7 @@ int main(void)
             close(p_fd2[0]);
             close(p_fd2[1]);
             fprintf(stderr," p_fd 0 = %d ,p_fd 1 = %d \n", p_fd[0], p_fd[1]);
-            char    *argv[] = {"/usr/bin/grep", "a.out", NULL};
+            char    *argv[] = {"/usr/bin/grep", "read", NULL};
             // close(p_fd[0]);
             execve(argv[0],argv , NULL);
             // execut_close_pin(argv, p_fd[0]);
@@ -94,7 +94,7 @@ int main(void)
                     printf("EOF!\n");
                     break ;
                 }
-                if (write (STDOUT_FILENO, buf, numRead) != numRead)
+                if (write (1, buf, numRead) != numRead)
                 {
                     printf("child - partial/failed write \n");
                     exit (5);
