@@ -2,7 +2,11 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <errno.h>
+<<<<<<< HEAD
 #include <fcntl.h>
+=======
+#include <wait.h>
+>>>>>>> b5bf180d4f279290928cac8b0a74009f7bcd3733
 #include <string.h>
 
 int status;
@@ -10,6 +14,7 @@ int status;
 /*this function read from a fd_in's content and write it to fd_out*/
 void	read_from_fd(int fd_in, int fd_out)
 {
+<<<<<<< HEAD
 	// close(fd_out);
 	for(;;)
 	{
@@ -21,6 +26,15 @@ void	read_from_fd(int fd_in, int fd_out)
 			exit(4);
 		}
 		if (numRead == 0)
+=======
+
+	while (1)
+	{
+		char	buff;
+		size_t	readedbuf;
+		readedbuf = read(fd_in, &buff, 1);
+		if (readedbuf == -1)
+>>>>>>> b5bf180d4f279290928cac8b0a74009f7bcd3733
 		{
 			printf("EOF!\n");
 			break ;
@@ -101,6 +115,80 @@ void	ft_pipe_begain(char *cmd1[], char *cmd2[])
 	// }
 }
 
+void ft_pipe_one_process()
+{
+	int p1[2];
+	int p2[2];
+
+	if (pipe(p1) == -1)
+	{
+		print_error(errno);
+		exit(errno);
+	}
+	if (pipe(p2) == -1)
+	{
+		print_error(errno);
+		exit(errno);
+	}
+
+	dup(p1[1]);
+	dup(p2[1]);
+	write(p1[1], "hello this is going to pipe 1\ndd", 33);
+	dup2(p1[0], 0);
+	// char c   = '\0';
+	// write(p1[1],&c,1);
+	close(p1[1]);
+	close(p1[0]);
+	print_error(errno);
+	char	buff[2];
+	size_t	readedbuf;
+	while (1)
+	{
+		// write(2, "HHH1\n",6);
+		readedbuf = read(0, &buff, 2);
+		// write(2, "HHH2\n",6);
+		// fprintf(stderr,"\nreadedbuf = |%ld|\n",readedbuf);
+		if (readedbuf == -1)
+		{
+			print_error(errno);
+			exit(errno);
+		}
+		if (readedbuf == 0)
+		{
+			write(2, "EOF\n",5);
+			break;
+		}
+		if (write(p2[1], &buff, 2) != 2)
+			break;
+		if ((unsigned char)buff[readedbuf - 1] == '\0')
+			break;
+	}
+	// close(p1[0]);
+	write(p2[1], "hello this is going to pipe 2\nhanta", 36);
+	close(p2[1]);
+	while (1)
+	{
+		// write(2, "HHH1\n",6);
+		readedbuf = read(p2[0], &buff, 2);
+		// write(2, "HHH2\n",6);
+		// fprintf(stderr,"\nreadedbuf = |%ld|\n",readedbuf);
+		if (readedbuf == -1)
+		{
+			print_error(errno);
+			exit(errno);
+		}
+		if (readedbuf == 0)
+		{
+			write(2, "EOF\n",5);
+			break;
+		}
+		if (write(1, &buff, 2) != 2)
+			break;
+		if ((unsigned char)buff[readedbuf -1] == '\0')
+			break;
+	}
+}
+
 int main(void)
 {
 	int	pipe1[2];
@@ -109,12 +197,21 @@ int main(void)
 	pipe(pipe1);
     char *cmd1[] = {"/bin/ls", "-la",NULL};
     char *cmd2[] = {"/usr/bin/grep", "read", NULL};
+<<<<<<< HEAD
 
 	// dup2(pipe1[1], 1);
 	// dup2(pipe1[0], 0);
     ft_pipe_begain(cmd1, cmd2);
 	printf("\nhello\n\n");
 	// close(pipe1[1]);
+=======
+    char *cmd3[] = {"/usr/bin/sort", "-r" , NULL};
+    char *cmd4[] = {"/usr/bin/sort", NULL, NULL};
+    // ft_pipe_begain(cmd1, cmd2);
+	ft_pipe_one_process();
+    // ft_pipe_begain(cmd3, cmd4);
+	// printf("\nhello\n\n");
+>>>>>>> b5bf180d4f279290928cac8b0a74009f7bcd3733
 	// read_from_fd(0, 1);
 
 	for(;;)
