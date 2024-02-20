@@ -16,7 +16,14 @@
 # define PLAYER_X WIN_WIDTH/2
 # define PLAYER_Y WIN_HEIGHT/2
 
-typedef struct data {
+typedef struct s_coorfinates
+{
+	double	x;
+	double	y;
+	double	z;
+} t_coord;
+
+typedef struct s_data {
 	int		x_player;
 	int		y_player;
 	float	angle;

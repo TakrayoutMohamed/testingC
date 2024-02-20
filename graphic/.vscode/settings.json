@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "mlx.h": "c",
-        "newheader.h": "c",
-        "unistd.h": "c"
-    }
-}
